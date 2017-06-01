@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hearglobal.conf.admin.mapper.AppMapper" >
+  <resultMap id="BaseResultMap" type="com.hearglobal.conf.admin.domain.App" >
+    <id column="app_id" property="appId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="emails" property="emails" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    app_id, name, description, create_time, update_time, emails
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from app
+    where app_id = #{appId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from app
+    where app_id = #{appId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" parameterType="com.hearglobal.conf.admin.domain.App" >
+    insert into app
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        app_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="emails != null" >
+        emails,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        #{appId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="emails != null" >
+        #{emails,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hearglobal.conf.admin.domain.App" >
+    update app
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="emails != null" >
+        emails = #{emails,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where app_id = #{appId,jdbcType=BIGINT}
+  </update>
+  <sql id="sql_where" >
+    <where >
+      <if test="name != null" >
+         and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="description != null" >
+         and description = #{description,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+         and create_time = #{createTime,jdbcType=VARCHAR}
+      </if>
+      <if test="updateTime != null" >
+         and update_time = #{updateTime,jdbcType=VARCHAR}
+      </if>
+      <if test="emails != null" >
+         and emails = #{emails,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+  <select id="getList" resultMap="BaseResultMap" parameterType="com.hearglobal.conf.admin.domain.App" >
+     select * from app
+    <include refid="sql_where" />
+  </select>
+</mapper>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hearglobal.conf.admin.mapper.ConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.hearglobal.conf.admin.domain.Config" >
+    <id column="config_id" property="configId" jdbcType="BIGINT" />
+    <result column="config_key" property="configKey" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="app_id" property="appId" jdbcType="BIGINT" />
+    <result column="env_id" property="envId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    config_id, config_key, value, app_id, env_id, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from config
+    where config_id = #{configId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from config
+    where config_id = #{configId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="configId" parameterType="com.hearglobal.conf.admin.domain.Config" >
+    insert into config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="configKey != null" >
+        config_key,
+      </if>
+      <if test="value != null" >
+        value,
+      </if>
+      <if test="appId != null" >
+        app_id,
+      </if>
+      <if test="envId != null" >
+        env_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="configKey != null" >
+        #{configKey,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=BIGINT},
+      </if>
+      <if test="envId != null" >
+        #{envId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hearglobal.conf.admin.domain.Config" >
+    update config
+    <set >
+      <if test="configKey != null" >
+        config_key = #{configKey,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null" >
+        app_id = #{appId,jdbcType=BIGINT},
+      </if>
+      <if test="envId != null" >
+        env_id = #{envId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where config_id = #{configId,jdbcType=BIGINT}
+  </update>
+  <sql id="sql_where" >
+    <where >
+      <if test="configKey != null" >
+         and config_key = #{configKey,jdbcType=VARCHAR}
+      </if>
+      <if test="value != null" >
+         and value = #{value,jdbcType=VARCHAR}
+      </if>
+      <if test="appId != null" >
+         and app_id = #{appId,jdbcType=BIGINT}
+      </if>
+      <if test="envId != null" >
+         and env_id = #{envId,jdbcType=BIGINT}
+      </if>
+      <if test="createTime != null" >
+         and create_time = #{createTime,jdbcType=VARCHAR}
+      </if>
+      <if test="updateTime != null" >
+         and update_time = #{updateTime,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+  <select id="getList" resultMap="BaseResultMap" parameterType="com.hearglobal.conf.admin.domain.Config" >
+     select * from config
+    <include refid="sql_where" />
+  </select>
+
+  <select id="getListParam" resultMap="BaseResultMap" parameterType="com.hearglobal.conf.admin.vo.ConfigParam" >
+    select * from config
+    <where >
+      <if test="envId != null" >
+        and env_id = #{envId,jdbcType=VARCHAR}
+      </if>
+      <if test="appId != null" >
+        and app_id = #{appId,jdbcType=VARCHAR}
+      </if>
+      <if test="configKey != null" >
+        and config_key like CONCAT('%',#{configKey},'%')
+      </if>
+    </where>
+  </select>
+</mapper>
